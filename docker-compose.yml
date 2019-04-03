@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: v-mysql
+    volumes:
+      - db_volumes:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: root
+    ports:
+      - "3306:3306"
+    networks:
+      - mynet
+
+  rails:
+    build: .
+    container_name: v-rails
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
+      - .:/app:cached
+      # exclude volumes
+      - /app/.git
+      - /app/node_modules
+      - /app/vender
+      - /app/log
+      - /app/tmp
+    ports:
+      - "3000:3000"
+    networks:
+      - mynet
+    depends_on:
+      - db
+
+networks:
+  mynet:
+
+volumes:
+  db_volumes:
