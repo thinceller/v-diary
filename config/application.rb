@@ -32,6 +32,8 @@ module Src
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
+    config.time_zone = 'Tokyo'
+
     if Rails.env.development?
       config.logger = ActiveSupport::Logger.new(STDOUT)
     end
