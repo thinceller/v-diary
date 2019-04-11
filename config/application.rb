@@ -37,5 +37,14 @@ module Src
     if Rails.env.development?
       config.logger = ActiveSupport::Logger.new(STDOUT)
     end
+
+    config.generators do |g|
+      g.test_framework :rspec,
+        controller_specs: false,
+        fixtures: false,
+        view_specs: false,
+        helper_specs: false,
+        routing_specs: false
+    end
   end
 end
